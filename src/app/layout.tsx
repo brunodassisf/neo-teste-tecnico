@@ -1,5 +1,6 @@
+import { App } from "antd";
 import AntdProvider from "@/lib/AntdProvider";
-import Template from "@/modules/Template";
+import Template from "@/components/Template";
 import '../global.css'
 
 export default function RootLayout({
@@ -11,9 +12,11 @@ export default function RootLayout({
     <html lang="pt-br">
       <body>
         <AntdProvider>
-          <Template>
-            {children}
-          </Template>
+          <App>
+            <Template>
+              {children}
+            </Template>
+          </App>
         </AntdProvider>
       </body>
     </html>
