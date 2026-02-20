@@ -17,7 +17,7 @@ export default function AntdProvider({ children }: { children: React.ReactNode }
                     },
                 }}
             >
-                    {children}
+                {children}
             </ConfigProvider>
         </AntdRegistry>
     );
