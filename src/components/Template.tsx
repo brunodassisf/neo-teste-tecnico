@@ -1,0 +1,60 @@
+'use client';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Col, Layout, Row, theme } from 'antd';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { ToggleViews } from '.';
+import ModalChamado from '@/modules/ModalChamado';
+
+const { Header, Content, Footer } = Layout;
+
+const Template: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [queryClient] = useState(() => new QueryClient());
+    const { token } = theme.useToken();
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Layout style={{ minHeight: '100vh', backgroundColor: token.colorBgBase }}>
+                <Header style={{
+                    backgroundColor: token.colorPrimary,
+                    padding: '0px 16px 0px 0px',
+                    height: 'auto',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1000,
+                    width: '100%',
+                }}>
+                    <Row style={{ width: '100%', maxWidth: '100%' }} justify="center">
+                        <Col xs={22} sm={20} md={18} lg={22} xl={22} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Image
+                                src="/neo-logo.svg"
+                                width={130}
+                                height={83}
+                                alt="logo-neo"
+                                style={{ display: 'block' }}
+                            />
+                        </Col>
+                    </Row>
+                </Header>
+                <Content style={{ backgroundColor: token.colorBgBase, display: 'flex', flexDirection: 'column' }}>
+                    <Row style={{ flex: 1, marginTop: token.marginLG, marginBottom: token.marginLG }} justify="center">
+                        <Col xs={22} sm={20} md={18} lg={22} xl={22}>
+                            <ToggleViews />
+                            <ModalChamado />
+                            {children}
+                        </Col>
+                    </Row>
+                </Content>
+
+                <Footer style={{ textAlign: 'center', backgroundColor: token.colorBgBase }}>
+                    Neo Estech {new Date().getFullYear()}
+                </Footer>
+            </Layout>
+        </QueryClientProvider>
+    );
+};
+
+export default Template;
