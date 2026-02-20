@@ -3,3 +3,68 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+.row-click {
+  cursor: pointer;
+}
+
+.toggle-view-content {
+  border-radius: 8px;
+  background-color: white;
+  width: fit-content;
+}
+
+.toggle-view-box {
+  display: flex;
+  align-items: center;
+  transition: all;
+  padding: 20px 40px;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.toggle-view-box h5 {
+  margin: 0px !important;
+  color: inherit;
+}
+
+.toggle-view-box:hover {
+  color: white;
+  background-color: #ec6725;
+  opacity: 0.7;
+}
+
+
+.toggle-view-box:hover>h5 {
+  color: white;
+}
+
+.v-active {
+  color: white;
+  background-color: #ec6725;
+}
+
+
+.toggle-view-content .v-left:hover,
+.toggle-view-content .v-left.v-active {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.toggle-view-content .v-right:hover,
+.toggle-view-content .v-right.v-active {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.toggle-view-box.v-active,
+.toggle-view-box.v-active h5 {
+  color: white !important;
+}
+
+.toggle-view-content {
+  border-radius: 8px;
+  background-color: white;
+  width: fit-content;
+  overflow: hidden;
+}
