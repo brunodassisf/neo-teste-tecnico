@@ -13,6 +13,7 @@ export default function AntdProvider({ children }: { children: React.ReactNode }
                 theme={{
                     token: {
                         colorPrimary: '#ec6725',
+                        colorBgBase: '#f2f4f7'
                     },
                 }}
             >

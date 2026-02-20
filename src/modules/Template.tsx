@@ -10,7 +10,7 @@ const { Header, Content, Footer } = Layout;
 const Template: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [open, setOpen] = useState(false);
     const {
-        token: { colorPrimary, colorBgContainer, colorWhite, boxShadowTertiary, marginLG },
+        token: { colorPrimary, colorBgContainer, colorWhite, colorBgBase, boxShadowTertiary, marginLG },
     } = theme.useToken();
 
     const toogleDrawer = () => setOpen(!open);
@@ -41,7 +41,7 @@ const Template: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 </Row>
             </Header>
 
-            <Content style={{ display: 'flex', flexDirection: 'column' }}>
+            <Content style={{ display: 'flex', flexDirection: 'column', backgroundColor: colorBgBase }}>
                 <Drawer title="Neo Estech" placement='left' onClose={toogleDrawer} open={open} mask={{blur: true}}>
                     <p>Conteúdo do Menu...</p>
                 </Drawer>
@@ -50,7 +50,7 @@ const Template: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <Col 
                         xs={22} sm={20} md={18} lg={22} xl={22} 
                         style={{ 
-                            backgroundColor: colorBgContainer, 
+                            backgroundColor: colorWhite, 
                             boxShadow: boxShadowTertiary, 
                             borderRadius: '8px',
                             padding: '24px',
@@ -63,7 +63,7 @@ const Template: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 </Row>
             </Content>
 
-            <Footer style={{ textAlign: 'center' }}>
+            <Footer style={{ textAlign: 'center', backgroundColor: colorBgBase }}>
                 Neo Estech {new Date().getFullYear()}
             </Footer>
         </Layout>
