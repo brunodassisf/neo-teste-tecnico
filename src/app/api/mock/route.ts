@@ -1,4 +1,3 @@
-// src/app/api/mock/route.ts
 import { NextResponse } from 'next/server';
 import { fakerPT_BR as faker } from '@faker-js/faker';
 import { Imock } from '@/interface';

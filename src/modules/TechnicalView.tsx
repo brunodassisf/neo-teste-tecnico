@@ -75,7 +75,6 @@ const TechnicalView: React.FC = () => {
         }
     ];
 
-    // Função que captura mudanças de página, filtros e ordenação
     const handleTableChange = (
         pagination: TablePaginationConfig,
         filters: Record<string, FilterValue | null>,
@@ -95,7 +94,6 @@ const TechnicalView: React.FC = () => {
         }));
     };
 
-    // Função de busca textual
     const onSearch = useCallback((value: string) => {
         setParams(prev => ({ ...prev, search: value, page: 1 }));
     }, []);
@@ -109,7 +107,6 @@ const TechnicalView: React.FC = () => {
             borderRadius: token.borderRadiusLG
         }}>
             <Space vertical style={{ width: '100%' }} size="middle">
-
                 <Input.Search
                     placeholder="Buscar por título ou ID..."
                     onSearch={onSearch}
@@ -117,12 +114,11 @@ const TechnicalView: React.FC = () => {
                     allowClear
                     enterButton
                 />
-
                 <DataTable<Imock>
                     loading={isLoading}
                     columns={columns}
                     dataSource={data?.items || []}
-                    rowKey="id" // Importante para performance e seleção
+                    rowKey="id"
                     pagination={{
                         current: params.page,
                         pageSize: params.pageSize,

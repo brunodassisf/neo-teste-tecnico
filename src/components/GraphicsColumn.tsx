@@ -35,7 +35,7 @@ const GraphicsColumn: React.FC<GraphicsColumnProps> = ({ data }) => {
     const options = {
         plugins: {
             legend: {
-                display: false, // Isso remove a legenda 'Chamados por Área'
+                display: false,
             },
         },
     };
