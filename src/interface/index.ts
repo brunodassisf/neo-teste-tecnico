@@ -38,14 +38,13 @@ export interface Imetadata {
 
 }
 
+export interface IobjectGraphics {
+    label: string,
+    value: number,
+}
+
 export interface Igraphics {
-    chamadoPorArea: {
-        label: string,
-        value: number,
-    }[],
-    chamadoPorStatus: {
-        label: string,
-        value: number,
-    }[],
+    chamadoPorArea: IobjectGraphics[],
+    chamadoPorStatus: IobjectGraphics[],
     mediaGeralChamadosAbertosDias: number
 }

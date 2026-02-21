@@ -2,7 +2,7 @@
 
 import { Modal } from '@/components';
 import { useMetadata } from '@/hook/metadata';
-import { Igraphics, IresponseMock } from '@/interface';
+import { Igraphics, IobjectGraphics, IresponseMock } from '@/interface';
 import { CalledFormData, newCalled } from '@/validations/NewCalled';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
@@ -51,17 +51,18 @@ const ModalCalled: React.FC = () => {
                 };
             });
 
+
             queryClient.setQueryData(['graphics'], (oldData: Igraphics | undefined) => {
                 if (!oldData) return oldData;
 
                 return {
                     ...oldData,
-                    chamadoPorArea: oldData.chamadoPorArea.map((item: any) =>
+                    chamadoPorArea: oldData.chamadoPorArea.map((item: IobjectGraphics) =>
                         item.label === novoChamado.area
                             ? { ...item, value: item.value + 1 }
                             : item
                     ),
-                    chamadoPorStatus: oldData.chamadoPorStatus.map((item: any) =>
+                    chamadoPorStatus: oldData.chamadoPorStatus.map((item: IobjectGraphics) =>
                         item.label === novoChamado.status
                             ? { ...item, value: item.value + 1 }
                             : item
