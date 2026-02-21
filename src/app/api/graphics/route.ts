@@ -71,7 +71,6 @@ export async function GET() {
     };
 
     return NextResponse.json(response);
-    //return NextResponse.json({ error: 'Erro ao processar métricas' }, { status: 500 });
   } catch (error) {
     console.error('Erro no endpoint:', error);
     return NextResponse.json({ error: 'Erro ao processar métricas' }, { status: 500 });

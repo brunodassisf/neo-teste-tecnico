@@ -20,7 +20,8 @@ export async function GET(request: Request) {
     const prioridade = searchParams.get('prioridade')?.split(',').filter(Boolean) || [];
     const area = searchParams.get('area')?.split(',').filter(Boolean) || [];
 
-    const sortField = searchParams.get('sortField') || 'abertura';
+    // Tipamos o sortField como uma chave de Imock
+    const sortField = (searchParams.get('sortField') as keyof Imock) || 'abertura';
     const sortOrder = searchParams.get('sortOrder') || 'descend';
 
     const baseData: Imock[] = Array.from({ length: 2000 }, (_, index) => {
@@ -32,11 +33,9 @@ export async function GET(request: Request) {
         ...template,
         id: 1000 + index,
         titulo: `${template.titulo} - ${faker.string.alphanumeric(4).toUpperCase()}`,
-
         area: faker.helpers.arrayElement(['Refrigeração', 'Energia', 'Ar-condicionado', 'Água']),
         prioridade: faker.helpers.arrayElement(['Crítica', 'Alta', 'Média', 'Baixa']),
         status: faker.helpers.arrayElement(['Aberto', 'Em andamento', 'Resolvido', 'Cancelado']),
-
         instalacao: `Unidade ${faker.location.city()} - ${faker.location.state({ abbreviated: true })}`,
         abertura: dateOpen.toISOString(),
         ultimaAtualizacao: dateUpdate.toISOString(),
@@ -44,7 +43,7 @@ export async function GET(request: Request) {
       };
     });
 
-    let filteredData = baseData.filter(item => {
+    const filteredData = baseData.filter(item => {
       const matchSearch = item.titulo.toLowerCase().includes(search);
       const matchStatus = status.length > 0 ? status.includes(item.status) : true;
       const matchPriority = prioridade.length > 0 ? prioridade.includes(item.prioridade) : true;
@@ -54,16 +53,17 @@ export async function GET(request: Request) {
     });
 
     filteredData.sort((a, b) => {
-      let vA: any = a[sortField as keyof Imock] ?? '';
-      let vB: any = b[sortField as keyof Imock] ?? '';
-
       if (sortField === 'prioridade') {
         const weights: Record<string, number> = {
           'Baixa': 1, 'Média': 2, 'Alta': 3, 'Crítica': 4
         };
-        vA = weights[a.prioridade] || 0;
-        vB = weights[b.prioridade] || 0;
+        const vA = weights[a.prioridade] || 0;
+        const vB = weights[b.prioridade] || 0;
+        return sortOrder === 'ascend' ? vA - vB : vB - vA;
       }
+
+      const vA = a[sortField] ?? '';
+      const vB = b[sortField] ?? '';
 
       if (vA < vB) return sortOrder === 'ascend' ? -1 : 1;
       if (vA > vB) return sortOrder === 'ascend' ? 1 : -1;
@@ -78,7 +78,7 @@ export async function GET(request: Request) {
       items: paginatedData,
       total: total
     });
-    //return NextResponse.json({ error: 'Erro ao processar métricas' }, { status: 500 });
+
   } catch (error) {
     console.error('API Error:', error);
     return NextResponse.json(
