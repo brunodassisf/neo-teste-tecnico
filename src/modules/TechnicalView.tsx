@@ -1,115 +1,149 @@
 'use client'
 
-import React, { useEffect, useRef } from "react";
-import { Empty, Flex, theme, Typography } from "antd";
-import { useMocks } from "@/hook/called";
-import { mockInterface } from "@/interface";
-import { useVirtualizer } from '@tanstack/react-virtual';
-import { AreaIcon, DrawerDetail, PriorityTag, StatusBadge, Error, Skeleton } from "@/components";
+import React, { useState, useCallback } from "react";
+import { Input, Space, theme } from "antd";
+import { AreaIcon, DrawerDetail, Error, PriorityTag, StatusBadge } from "@/components";
+import DataTable from "@/components/DataTable";
+import { FetchParams, useMocks } from "@/hook/called";
+import { Imock } from "@/interface";
+import { FilterValue, SorterResult } from "antd/es/table/interface";
+import { ColumnsType, TablePaginationConfig } from "antd/lib/table";
 
 const TechnicalView: React.FC = () => {
-    const [isMounted, setIsMounted] = React.useState(false);
-    const parentRef = useRef<HTMLDivElement>(null);
-    const [selectRow, setSelectRow] = React.useState<mockInterface | null>(null);
     const { token } = theme.useToken();
-    const { data, isLoading, error, refetch } = useMocks();
+    const [selectRow, setSelectRow] = useState<Imock | null>(null);
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    const sortedData = React.useMemo(() => {
-        if (!data) return [];
-        return [...data].sort((a, b) =>
-            new Date(b.abertura).getTime() - new Date(a.abertura).getTime()
-        );
-    }, [data]);
-
-    const rowVirtualizer = useVirtualizer({
-        count: sortedData.length,
-        getScrollElement: () => parentRef.current,
-        estimateSize: () => 50,
-        overscan: 10,
+    const [params, setParams] = useState<FetchParams>({
+        page: 1,
+        pageSize: 10,
+        search: '',
     });
 
 
-    if (!isMounted || isLoading) return <Skeleton.Mock />;
+    const { data, isLoading, error, refetch } = useMocks(params);
+
+    const columns: ColumnsType<Imock> = [
+        {
+            title: 'Título',
+            dataIndex: 'titulo',
+            ellipsis: true,
+            width:300
+        },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            width: 180,
+            render: (value) => <StatusBadge status={value} />,
+            filters: [
+                { text: 'Aberto', value: 'Aberto' },
+                { text: 'Em andamento', value: 'Em andamento' },
+                { text: 'Resolvido', value: 'Resolvido' },
+                { text: 'Cancelado', value: 'Cancelado' },
+            ],
+        },
+        {
+            title: 'Área',
+            dataIndex: 'area',
+            width: 200,
+            render: (value) => <AreaIcon area={value} />,
+            filters: [
+                { text: 'Refrigeração', value: 'Refrigeração' },
+                { text: 'Energia', value: 'Energia' },
+                { text: 'Ar-condicionado', value: 'Ar-condicionado' },
+                { text: 'Água', value: 'Água' },
+            ],
+        },
+        {
+            title: 'Prioridade',
+            dataIndex: 'prioridade',
+            width: 150,
+            render: (value) => <PriorityTag priority={value} />,
+            sorter: true, // Ativa ordenação no servidor
+            filters: [
+                { text: 'Crítica', value: 'Crítica' },
+                { text: 'Alta', value: 'Alta' },
+                { text: 'Média', value: 'Média' },
+                { text: 'Baixa', value: 'Baixa' },
+            ],
+        },
+        {
+            title: 'Abertura',
+            dataIndex: 'abertura',
+            width: 130,
+            sorter: true,
+            render: (value) => new Date(value).toLocaleDateString('pt-BR'),
+        }
+    ];
+
+    // Função que captura mudanças de página, filtros e ordenação
+    const handleTableChange = (
+        pagination: TablePaginationConfig,
+        filters: Record<string, FilterValue | null>,
+        sorter: SorterResult<Imock> | SorterResult<Imock>[]
+    ) => {
+        const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
+
+        setParams(prev => ({
+            ...prev,
+            page: pagination.current || 1,
+            pageSize: pagination.pageSize || 10,
+            status: filters.status as string[] | undefined,
+            prioridade: filters.prioridade as string[] | undefined,
+            area: filters.area as string[] | undefined,
+            sortField: singleSorter.field as string | undefined,
+            sortOrder: singleSorter.order as string | undefined
+        }));
+    };
+
+    // Função de busca textual
+    const onSearch = useCallback((value: string) => {
+        setParams(prev => ({ ...prev, search: value, page: 1 }));
+    }, []);
+
     if (error) return <Error onClick={refetch} />;
-    if (!data || data.length === 0) return <Empty />;
 
     return (
-        <Flex
-            vertical
-            style={{
-                backgroundColor: token.colorWhite,
-                borderRadius: token.borderRadiusLG,
-                padding: token.paddingMD,
-                height: '60vh',
-            }}>
-            <Flex
-                style={{
-                    paddingLeft: token.paddingSM,
-                    borderBottom: `1px solid ${token.colorBorderSecondary}`,
-                    background: token.colorFillAlter
-                }}>
-                <Typography.Title level={5} style={{ flex: 2 }}>Título</Typography.Title>
-                <Typography.Title level={5} style={{ width: 150 }}>Status</Typography.Title>
-                <Typography.Title level={5} style={{ width: 200 }}>Área</Typography.Title>
-                <Typography.Title level={5} style={{ width: 120 }}>Prioridade</Typography.Title>
-            </Flex>
+        <div style={{
+            padding: token.paddingMD,
+            backgroundColor: token.colorWhite,
+            borderRadius: token.borderRadiusLG
+        }}>
+            <Space vertical style={{ width: '100%' }} size="middle">
 
-            <div
-                ref={parentRef}
-                style={{
-                    flex: 1,
-                    overflowY: 'auto',
-                    position: 'relative',
-                }}
-            >
-                <div
-                    style={{
-                        height: `${rowVirtualizer.getTotalSize()}px`,
-                        width: '100%',
-                        position: 'relative',
+                <Input.Search
+                    placeholder="Buscar por título ou ID..."
+                    onSearch={onSearch}
+                    style={{ maxWidth: 400 }}
+                    allowClear
+                    enterButton
+                />
+
+                <DataTable<Imock>
+                    loading={isLoading}
+                    columns={columns}
+                    dataSource={data?.items || []}
+                    rowKey="id" // Importante para performance e seleção
+                    pagination={{
+                        current: params.page,
+                        pageSize: params.pageSize,
+                        total: data?.total || 0,
+                        showSizeChanger: true,
+                        pageSizeOptions: ['10', '20', '50'],
+                        showTotal: (total) => `Total de ${total} chamados`,
                     }}
-                >
-                    {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                        const item = data[virtualRow.index];
-                        if (!item) return null;
-                        return (
-                            <div
-                                key={virtualRow.key}
-                                onClick={() => setSelectRow(item)}
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: `${virtualRow.size}px`,
-                                    transform: `translateY(${virtualRow.start}px)`,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    padding: '0 12px',
-                                    borderBottom: `1px solid ${token.colorBorderSecondary}`,
-                                    cursor: 'pointer',
-                                    transition: 'background 0.2s'
-                                }}
-                                className="row-hover-effect"
-                            >
-                                <Typography.Paragraph
-                                    style={{ flex: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: '0px' }}>
-                                    {item.titulo}
-                                </Typography.Paragraph>
-                                <div style={{ width: 150 }}><StatusBadge status={item.status} /></div>
-                                <div style={{ width: 200 }}><AreaIcon area={item.area} /></div>
-                                <div style={{ width: 120 }}><PriorityTag priority={item.prioridade} /></div>
-                            </div>
-                        );
+                    onChange={handleTableChange}
+                    onRow={(record) => ({
+                        onClick: () => setSelectRow(record),
+                        style: { cursor: 'pointer' }
                     })}
-                </div>
-            </div>
-            <DrawerDetail selectRow={selectRow} closeDrawer={() => setSelectRow(null)} />
-        </Flex>
+                />
+            </Space>
+
+            <DrawerDetail
+                selectRow={selectRow}
+                closeDrawer={() => setSelectRow(null)}
+            />
+        </div>
     );
 }
 

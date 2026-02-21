@@ -1,5 +1,5 @@
 
-export interface mockInterface {
+export interface Imock {
     id: number;
     titulo: string;
     area: 'Refrigeração' | 'Energia' | 'Ar-condicionado' | 'Água';
@@ -10,30 +10,35 @@ export interface mockInterface {
     abertura: string;
     ultimaAtualizacao: string;
     descricao: string;
-    responsavel: string;
+    responsavel: string | null;
 }
 
-export interface metadataInterface {
+export interface IresponseMock {
+    items: Imock[];
+    total: number;
+}
+
+export interface Imetadata {
     areas: {
         id: number;
-        nome: string
+        nome: string;
     }[],
     prioridades: {
         id: number;
-        nome: string
+        nome: string;
     }[],
     equipamentos: {
         id: number;
-        nome: string
+        nome: string;
     }[],
     instalacao: {
         id: number;
-        nome: string
+        nome: string;
     }[],
 
 }
 
-export interface graphicsInterface {
+export interface Igraphics {
     chamadoPorArea: {
         label: string,
         value: number,
