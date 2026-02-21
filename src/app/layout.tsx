@@ -10,6 +10,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
+      <head>
+        <meta name="color-scheme" content="#ec6725" />
+        <title>Neo Estech</title>
+      </head>
       <body>
         <AntdProvider>
           <App>
