@@ -16,9 +16,9 @@ export async function GET() {
         };
 
         const data = {
-            areas: getUniqueOptions('areas'),
-            prioridades: getUniqueOptions('prioridades'),
-            equipamentos: getUniqueOptions('equipamentos'),
+            area: getUniqueOptions('area'),
+            prioridade: getUniqueOptions('prioridade'),
+            equipamento: getUniqueOptions('equipamento'),
             instalacao: getUniqueOptions('instalacao'),
         };
 

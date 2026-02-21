@@ -19,15 +19,15 @@ export interface IresponseMock {
 }
 
 export interface Imetadata {
-    areas: {
+    area: {
         id: number;
         nome: string;
     }[],
-    prioridades: {
+    prioridade: {
         id: number;
         nome: string;
     }[],
-    equipamentos: {
+    equipamento: {
         id: number;
         nome: string;
     }[],

@@ -98,21 +98,21 @@ const ModalCalled: React.FC = () => {
 
                     <Form.Item label="Equipamento" validateStatus={errors.equipamento ? 'error' : ''} help={errors.equipamento?.message}>
                         <Controller name="equipamento" control={control} render={({ field }) => (
-                            <Select {...field} options={data?.equipamentos.map((item) => ({ value: item, label: item })) || []} />
+                            <Select {...field} options={data?.equipamento.map((item) => ({ value: item, label: item })) || []} />
                         )} />
                     </Form.Item>
 
                     <Flex gap="middle">
                         <Form.Item label="Área" style={{ flex: 1 }} validateStatus={errors.area ? 'error' : ''} help={errors.area?.message}>
                             <Controller name="area" control={control} render={({ field }) => (
-                                <Select {...field} options={data?.areas.map((item) => ({ value: item, label: item })) || []} />
+                                <Select {...field} options={data?.area.map((item) => ({ value: item, label: item })) || []} />
                             )} />
                         </Form.Item>
 
 
                         <Form.Item label="Prioridade" style={{ flex: 1 }} validateStatus={errors.prioridade ? 'error' : ''} help={errors.prioridade?.message}>
                             <Controller name="prioridade" control={control} render={({ field }) => (
-                                <Select {...field} options={data?.prioridades.map((item) => ({ value: item, label: item })) || []} />
+                                <Select {...field} options={data?.prioridade.map((item) => ({ value: item, label: item })) || []} />
                             )} />
                         </Form.Item>
                     </Flex>
