@@ -1,13 +1,13 @@
 'use client'
 
 import { Space, Tag } from 'antd';
-import { mockInterface } from '@/interface';
+import { Imock } from '@/interface';
 import { SlEnergy } from "react-icons/sl";
 import { PiThermometerCold } from "react-icons/pi";
 import { TbAirConditioning } from "react-icons/tb";
 import { IoWaterOutline } from "react-icons/io5";
 
-const areaConfig: Record<mockInterface['area'], { color: string; icon: React.ReactNode; label: string }> = {
+const areaConfig: Record<Imock['area'], { color: string; icon: React.ReactNode; label: string }> = {
     'Refrigeração': {
         color: 'default',
         icon: <PiThermometerCold />,
@@ -31,7 +31,7 @@ const areaConfig: Record<mockInterface['area'], { color: string; icon: React.Rea
 };
 
 type AreaIconProps = {
-    area: mockInterface['area']
+    area: Imock['area']
 }
 
 const AreaIcon: React.FC<AreaIconProps> = ({ area }) => {

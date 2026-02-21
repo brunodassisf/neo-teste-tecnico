@@ -1,7 +1,7 @@
-import { graphicsInterface } from '@/interface';
+import { Igraphics } from '@/interface';
 import { useQuery } from '@tanstack/react-query';
 
-const fetchGraphics = async (): Promise<graphicsInterface> => {
+const fetchGraphics = async (): Promise<Igraphics> => {
     const response = await fetch('/api/graphics');
     if (!response.ok) throw new Error('Erro ao carregar chamados');
     return response.json();

@@ -1,13 +1,13 @@
 'use client'
 
 import { Space, Tag } from 'antd';
-import { mockInterface } from '@/interface';
+import { Imock } from '@/interface';
 import { RiAlarmWarningFill } from "react-icons/ri";
 import { TiWarning } from "react-icons/ti";
 import { IoAlertOutline } from "react-icons/io5";
 import { RiSlowDownLine } from "react-icons/ri";
 
-const prioridadeConfig: Record<mockInterface['prioridade'], { color: string; icon: React.ReactNode; label: string }> = {
+const prioridadeConfig: Record<Imock['prioridade'], { color: string; icon: React.ReactNode; label: string }> = {
     'Crítica': {
         color: 'error',
         icon: <RiAlarmWarningFill />,
@@ -31,7 +31,7 @@ const prioridadeConfig: Record<mockInterface['prioridade'], { color: string; ico
 };
 
 type PriorityTagProps = {
-    priority: mockInterface['prioridade']
+    priority: Imock['prioridade']
 }
 
 const PriorityTag: React.FC<PriorityTagProps> = ({ priority }) => {

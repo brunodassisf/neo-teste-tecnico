@@ -1,12 +1,12 @@
 'use client'
 
 import React from "react";
-import { mockInterface } from "@/interface";
+import { Imock } from "@/interface";
 import { Divider, Drawer, Flex, theme, Timeline, TimelineItemProps, Typography } from "antd";
 import { StatusBadge, PriorityTag, AreaIcon, } from ".";
 
 type DrawerDetailProps = {
-    selectRow: mockInterface | null;
+    selectRow: Imock | null;
     closeDrawer: () => void;
 }
 

@@ -2,19 +2,19 @@ import fs from 'fs';
 import path from 'path';
 import { NextResponse } from 'next/server';
 import { fakerPT_BR as faker } from '@faker-js/faker';
-import { mockInterface } from '@/interface';
+import { Imock } from '@/interface';
 
 export async function GET() {
   try {
     const filePath = path.join(process.cwd(), 'src/mocks/chamados.json');
     const fileData = fs.readFileSync(filePath, 'utf8');
-    const arrayOrigin: mockInterface[] = JSON.parse(fileData);
+    const arrayOrigin: Imock[] = JSON.parse(fileData);
 
     const mockData = Array.from({ length: 2000 }, (_, index) => {
       const id = arrayOrigin.length + 1000 + index + 1;
       const dateOpen = faker.date.recent({ days: 30 });
       const dateUpdate = faker.date.between({ from: dateOpen, to: new Date() });
-      const problemSorting: mockInterface = faker.helpers.arrayElement(arrayOrigin);
+      const problemSorting: Imock = faker.helpers.arrayElement(arrayOrigin);
 
       return {
         id,

@@ -1,14 +1,14 @@
 'use client'
 
 import { Space, Tag } from 'antd';
-import { mockInterface } from '@/interface';
+import { Imock } from '@/interface';
 import { FaFolderOpen } from "react-icons/fa6";
 import { GrInProgress } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 
 
-const statusConfig: Record<mockInterface['status'], { color: string; icon: React.ReactNode; label: string }> = {
+const statusConfig: Record<Imock['status'], { color: string; icon: React.ReactNode; label: string }> = {
     'Aberto': {
         color: 'processing',
         icon: <FaFolderOpen />,
@@ -32,7 +32,7 @@ const statusConfig: Record<mockInterface['status'], { color: string; icon: React
 };
 
 type StatusBadgeProps = {
-    status: mockInterface['status']
+    status: Imock['status']
 }
 
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
