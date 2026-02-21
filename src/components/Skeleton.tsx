@@ -1,26 +1,31 @@
 'use client'
 
 
-import { Col, Flex, Row, Skeleton, theme } from "antd";
+import { Col, Divider, Flex, Row, Skeleton, theme } from "antd";
 import { useEffect, useState } from "react";
 
 function Graphics() {
     const { token } = theme.useToken();
     return (
         <Row justify="space-evenly">
-            <Col span={23} style={{ backgroundColor: token.colorWhite, padding: token.paddingXL, borderRadius: token.borderRadiusLG, marginBottom: token.marginLG }}>
-                <Flex vertical align="center">
-                    <Skeleton.Node active style={{ width: 400, height: 50 }} />
+            <Col span={24} style={{ backgroundColor: token.colorWhite, padding: token.paddingXL, borderRadius: token.borderRadiusLG, marginBottom: token.marginLG }}>
+
+                <Flex justify="center" align="center">
+                    <Skeleton.Node active style={{ width: 280, height: 50 }} />
+                </Flex>
+
+            </Col>
+            <Col xs={{ span: 24 }} lg={{ span: 9 }} style={{ backgroundColor: token.colorWhite, padding: token.paddingLG, borderRadius: token.borderRadiusLG }}>
+                <Flex justify="center" align="center">
+                    <Skeleton.Node active style={{ width: 300, height: 280 }} />
                 </Flex>
             </Col>
-            <Col span={11} style={{ backgroundColor: token.colorWhite, padding: token.paddingLG, borderRadius: token.borderRadiusLG }}>
-                <Flex vertical align="center">
-                    <Skeleton.Node active style={{ width: 350, height: 300 }} />
-                </Flex>
+            <Col xs={{ span: 24 }} lg={{ span: 0 }}>
+                <Divider />
             </Col>
-            <Col span={11} style={{ backgroundColor: token.colorWhite, padding: token.paddingLG, borderRadius: token.borderRadiusLG }}>
-                <Flex vertical align="center">
-                    <Skeleton.Node active style={{ width: 350, height: 300 }} />
+            <Col xs={{ span: 24 }} lg={{ span: 9 }} style={{ backgroundColor: token.colorWhite, padding: token.paddingLG, borderRadius: token.borderRadiusLG }}>
+                <Flex justify="center" align="center">
+                    <Skeleton.Node active style={{ width: 300, height: 280 }} />
                 </Flex>
             </Col>
         </Row>
@@ -78,8 +83,7 @@ function Mock() {
 function Toggle() {
     return (
         <Flex justify='center'>
-            <Skeleton.Button active style={{ width: 200, height: 80 }} />
-            <Skeleton.Button active style={{ width: 200, height: 80 }} />
+            <Skeleton.Button active style={{ width: 400, height: 80 }} />
         </Flex>
     )
 }

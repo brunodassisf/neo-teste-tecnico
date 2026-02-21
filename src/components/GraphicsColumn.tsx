@@ -32,6 +32,14 @@ type GraphicsColumnProps = {
 const GraphicsColumn: React.FC<GraphicsColumnProps> = ({ data }) => {
     const parentRef = useRef<HTMLDivElement>(null);
 
+    const options = {
+        plugins: {
+            legend: {
+                display: false, // Isso remove a legenda 'Chamados por Área'
+            },
+        },
+    };
+
     const chartData = {
         labels: data?.map((item) => item.label) ?? [],
         datasets: [
@@ -42,14 +50,15 @@ const GraphicsColumn: React.FC<GraphicsColumnProps> = ({ data }) => {
                     '#3c89ee',
                     '#FFCE56',
                     '#30ce30',
+                    '#7b817b',
                 ],
             },
         ],
     };
 
     return (
-        <Flex align="center" justify="center" ref={parentRef} style={{ width: '500px', height: '350px' }}>
-            <Bar data={chartData} />
+        <Flex align="center" justify="center" ref={parentRef} className="graphics-size" >
+            <Bar options={options} data={chartData} />
         </Flex>
     );
 }

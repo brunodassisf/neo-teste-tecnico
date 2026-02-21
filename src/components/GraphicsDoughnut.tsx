@@ -34,7 +34,7 @@ const GraphicsDoughnut: React.FC<GraphicsDoughnutProps> = ({ data }) => {
     };
 
     return (
-        <Flex align="center" justify="center" ref={parentRef} style={{ width: '500px', height: '350px' }}>
+        <Flex align="center" justify="center" ref={parentRef}  className="graphics-size">
             <Doughnut data={chartData} />
         </Flex>
     );

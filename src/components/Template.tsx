@@ -1,11 +1,11 @@
 'use client';
 
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Col, Layout, Row, theme } from 'antd';
 import Image from 'next/image';
-import React, { useState } from 'react';
 import { ToggleViews } from '.';
-import ModalChamado from '@/modules/ModalChamado';
+import ModalCalled from '@/modules/ModalCalled';
 
 const { Header, Content, Footer } = Layout;
 
@@ -43,12 +43,11 @@ const Template: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <Row style={{ flex: 1, marginTop: token.marginLG, marginBottom: token.marginLG }} justify="center">
                         <Col xs={22} sm={20} md={18} lg={22} xl={22}>
                             <ToggleViews />
-                            <ModalChamado />
+                            <ModalCalled />
                             {children}
                         </Col>
                     </Row>
                 </Content>
-
                 <Footer style={{ textAlign: 'center', backgroundColor: token.colorBgBase }}>
                     Neo Estech {new Date().getFullYear()}
                 </Footer>
