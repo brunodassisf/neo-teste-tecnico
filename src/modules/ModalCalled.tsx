@@ -1,15 +1,14 @@
 'use client'
 
-import React, { useState } from 'react';
-import { Button, Flex, theme, Input, Select, Form, App } from 'antd';
-import { useForm, Controller } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { CalledFormData, newCalled } from '@/validations/NewCalled';
-import { useQueryClient } from '@tanstack/react-query';
-import { useMetadata } from '@/hook/metadata';
 import { Modal } from '@/components';
-
-const { TextArea } = Input;
+import { useMetadata } from '@/hook/metadata';
+import { Igraphics, IresponseMock } from '@/interface';
+import { CalledFormData, newCalled } from '@/validations/NewCalled';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+import { App, Button, Flex, Form, Input, Select, theme } from 'antd';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 const defaultValues = {
     titulo: "",
@@ -20,13 +19,12 @@ const defaultValues = {
     instalacao: ""
 };
 
-const ModalChamado: React.FC = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const { token } = theme.useToken();
+const ModalCalled: React.FC = () => {
     const queryClient = useQueryClient();
-
+    const { token } = theme.useToken();
     const { data } = useMetadata()
     const { message } = App.useApp();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { control, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<CalledFormData>({
         resolver: zodResolver(newCalled),
@@ -42,13 +40,36 @@ const ModalChamado: React.FC = () => {
                 abertura: new Date().toISOString(),
                 status: "Aberto",
             };
-            queryClient.setQueryData(['mocks'], (oldData: any) => {
-                if (!oldData) return [novoChamado];
-                return [novoChamado, ...oldData];
+
+            queryClient.setQueriesData({ queryKey: ['mocks'] }, (oldData: IresponseMock | undefined) => {
+                if (!oldData) return oldData;
+
+                return {
+                    ...oldData,
+                    total: oldData.total + 1,
+                    items: [novoChamado, ...oldData.items].slice(0, 10)
+                };
+            });
+
+            queryClient.setQueryData(['graphics'], (oldData: Igraphics | undefined) => {
+                if (!oldData) return oldData;
+
+                return {
+                    ...oldData,
+                    chamadoPorArea: oldData.chamadoPorArea.map((item: any) =>
+                        item.label === novoChamado.area
+                            ? { ...item, value: item.value + 1 }
+                            : item
+                    ),
+                    chamadoPorStatus: oldData.chamadoPorStatus.map((item: any) =>
+                        item.label === novoChamado.status
+                            ? { ...item, value: item.value + 1 }
+                            : item
+                    ),
+                };
             });
             message.success("Chamado criado com sucesso!");
-            setIsModalOpen(false);
-            reset();
+            handleClose();
         } catch (error) {
             message.error("Erro ao criar chamado.");
         }
@@ -62,7 +83,7 @@ const ModalChamado: React.FC = () => {
 
     return (
         <>
-            <Flex justify='end' style={{ marginBottom: token.marginSM }}>
+            <Flex justify='end' style={{ margin: token.marginLG }}>
                 <Button type="primary" onClick={() => setIsModalOpen(true)}>Novo Chamado</Button>
             </Flex>
             <Modal
@@ -103,7 +124,7 @@ const ModalChamado: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item label="Descrição" validateStatus={errors.descricao ? 'error' : ''} help={errors.descricao?.message}>
-                        <Controller name="descricao" control={control} render={({ field }) => <TextArea {...field} rows={4} />} />
+                        <Controller name="descricao" control={control} render={({ field }) => <Input.TextArea {...field} rows={4} />} />
                     </Form.Item>
 
                     <Flex justify="end" gap="small">
@@ -116,4 +137,4 @@ const ModalChamado: React.FC = () => {
     );
 };
 
-export default ModalChamado;
+export default ModalCalled;

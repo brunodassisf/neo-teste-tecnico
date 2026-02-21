@@ -68,3 +68,19 @@ body {
   width: fit-content;
   overflow: hidden;
 }
+
+.ant-table-row {
+  cursor: pointer;
+}
+
+.graphics-size {
+  width: 400px;
+  height: 300px;
+}
+
+@media screen and (max-width: 600px) {
+  .graphics-size {
+    width: auto;
+    height: auto;
+  }
+}
