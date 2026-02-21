@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Imock } from "@/interface";
-import { Divider, Drawer, Flex, theme, Timeline, TimelineItemProps, Typography } from "antd";
-import { StatusBadge, PriorityTag, AreaIcon, } from ".";
+import { Divider, Drawer, Flex, theme, Typography } from "antd";
+import { AreaIcon, PriorityTag, StatusBadge, TimeLine, } from ".";
 
 type DrawerDetailProps = {
     selectRow: Imock | null;
@@ -12,29 +12,6 @@ type DrawerDetailProps = {
 
 const DrawerDetail: React.FC<DrawerDetailProps> = ({ selectRow, closeDrawer }) => {
     const { token } = theme.useToken();
-
-    const timelineItems = [
-        selectRow?.ultimaAtualizacao ? {
-            title: <Typography.Text type="secondary">{new Date(selectRow.ultimaAtualizacao).toLocaleString()}</Typography.Text>,
-            content: (
-                <>
-                    <Typography.Text strong>Última Atualização</Typography.Text>
-                    <Typography.Paragraph>{selectRow.descricao}</Typography.Paragraph>
-                </>
-            ),
-            color: 'green',
-        } : null,
-        {
-            title: <Typography.Text type="secondary">{new Date(selectRow?.abertura as string).toLocaleString()}</Typography.Text>,
-            content: (
-                <>
-                    <Typography.Text strong>Instalação</Typography.Text>
-                    <Typography.Paragraph>{selectRow?.instalacao}</Typography.Paragraph>
-                </>
-            ),
-            color: 'gray',
-        },
-    ].filter(Boolean) as TimelineItemProps[];
 
     return (
         <Drawer
@@ -59,14 +36,7 @@ const DrawerDetail: React.FC<DrawerDetailProps> = ({ selectRow, closeDrawer }) =
                         <div><strong>Prioridade:</strong> <PriorityTag priority={selectRow.prioridade} /></div>
                     </Flex>
                     <Divider plain style={{ borderColor: token.colorPrimary }} />
-                    <div>
-                        <Flex vertical gap="middle">
-                            <Typography.Title level={5} style={{ margin: 0 }}>
-                                TimeLine
-                            </Typography.Title>
-                            <Timeline items={timelineItems} titleSpan="100px" />
-                        </Flex>
-                    </div>
+                    <TimeLine data={selectRow} />
                 </div>
             )}
         </Drawer>

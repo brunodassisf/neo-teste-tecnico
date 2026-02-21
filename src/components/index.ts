@@ -8,5 +8,6 @@ import GraphicsDoughnut from "./GraphicsDoughnut";
 import GraphicsColumn from "./GraphicsColumn";
 import SkeletonCore from "./Skeleton";
 import Error from "./Error";
+import TimeLine from "./TimeLine";
 
-export { ModalCore as Modal, DrawerDetail, PriorityTag, StatusBadge, AreaIcon, ToggleViews, GraphicsDoughnut, GraphicsColumn, SkeletonCore as Skeleton, Error }
+export { ModalCore as Modal, DrawerDetail, PriorityTag, StatusBadge, AreaIcon, ToggleViews, GraphicsDoughnut, GraphicsColumn, SkeletonCore as Skeleton, Error, TimeLine }
