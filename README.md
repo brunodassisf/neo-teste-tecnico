@@ -29,7 +29,7 @@ No item obrigátorio **nº5** foi solicitado cadastrar as informações **(títu
 ##  O que você faria diferente com mais tempo :rocket:
 
 1. Eu finalizaria a cobertura dos testes em toda aplicação.
-2. Trocaria a visualização de tabela nos dispositivos mobile por conta da largura das tabelas, poderia ser uma vizualição por meio de cards que sejam mais intuitivos para o técnico/gestor.
+2. Trocaria a visualização de tabela nos dispositivos mobile por conta da largura, poderia ser uma vizualização por meio de cards que sejam mais intuitivos para o técnico/gestor.
 
 ## Respostas conceituais :question:
 
